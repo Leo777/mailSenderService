@@ -1,0 +1,23 @@
+{
+  "Letters": [
+    {
+      "Message": {
+        "Subject": "Graph Test pdf",
+        "Attachments": [
+
+        ],
+        "Body": {
+          "ContentType": "Text",
+          "Content": "Has been Sent pdf file."
+        },
+        "ToRecipients": [
+          {
+            "EmailAddress": {
+              "Address": "borichevskiy@gmail.com"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
