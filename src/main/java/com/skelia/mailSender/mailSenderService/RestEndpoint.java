@@ -1,39 +1,25 @@
 package com.skelia.mailSender.mailSenderService;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+
 @RestController
 public class RestEndpoint {
-
-    private String json = "{\n" +
-            "  \"Letters\": [\n" +
-            "    {\n" +
-            "      \"Message\": {\n" +
-            "        \"Subject\": \"Graph Test pdf\",\n" +
-            "        \"Attachments\": [\n" +
-            "\n" +
-            "        ],\n" +
-            "        \"Body\": {\n" +
-            "          \"ContentType\": \"Text\",\n" +
-            "          \"Content\": \"Has been Sent pdf file.\"\n" +
-            "        },\n" +
-            "        \"ToRecipients\": [\n" +
-            "          {\n" +
-            "            \"EmailAddress\": {\n" +
-            "              \"Address\": \"borichevskiy@gmail.com\"\n" +
-            "            }\n" +
-            "          }\n" +
-            "        ]\n" +
-            "      }\n" +
-            "    }\n" +
-            "  ]\n" +
-            "}";
 
 
         @Autowired
@@ -44,9 +30,32 @@ public class RestEndpoint {
 
         @RequestMapping(value = "/message", method = RequestMethod.GET)
         public String getMessageFromSecuredService(){
-            ResponseEntity<String> entity = template.postForEntity(endpoint,json,String.class);
-            return entity.getBody();
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            JSONObject message = readingJsonFromFile();
+
+            HttpEntity<String> entity = new HttpEntity<String>(message.toString(),headers);
+            ResponseEntity<String> responseEntity = template.postForEntity(endpoint,entity,String.class);
+            return responseEntity.getBody();
         }
 
+    public JSONObject readingJsonFromFile() {
+
+        JSONParser jsonParser = new JSONParser();
+
+        File file = new File("C:\\dev\\skelia\\mailSenderService\\src\\main\\resources\\mail.json");
+
+        Object object = null;
+        try {
+            object = jsonParser.parse(new FileReader(file));
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        JSONObject jsonObject = (JSONObject) object;
+       return jsonObject;
+    }
 
 }
