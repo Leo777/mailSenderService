@@ -1,0 +1,31 @@
+{
+  "saveToSentItems": "false",
+  "message": {
+    "toRecipients": [
+      {
+        "emailAddress": {
+          "address": "borichevskiy@gmail.com"
+        }
+      }
+    ],
+    "attachments": [
+      {
+        "@odata.type": "#microsoft.graph.fileAttachment",
+        "name": "hello world.txt",
+        "contentBytes": "aGVsbG8gd29ybGQh"
+      }
+    ],
+    "subject": " Test: Meet for lunch?",
+    "ccRecipients": [
+      {
+        "emailAddress": {
+          "address": "borichevskiy@gmail.com"
+        }
+      }
+    ],
+    "body": {
+      "contentType": "Text",
+      "content": "The new cafeteria is open."
+    }
+  }
+}

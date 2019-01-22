@@ -40,6 +40,7 @@ public class OAuth2RestClientConfig {
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             http.authorizeRequests().anyRequest().permitAll();
+            http.csrf().disable();
         }
     }
 
